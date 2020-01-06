@@ -9,6 +9,8 @@ public class ScoreManager : MonoBehaviour
     public Text m_scoreText;
     public Text m_lifeText;
 
+    [SerializeField] GameObject tappedCircleFX;
+
     public GameObject m_gameOverPanel;
     Board m_board;
 
@@ -106,5 +108,23 @@ public class ScoreManager : MonoBehaviour
         m_gameOverPanel.SetActive(true);
         m_gameOverPanel.transform.Find("ScoreText").GetComponent<Text>().text = PadZero(m_score, 4);
         m_board.m_gameOver = true;
+    }
+
+    public void PlayTappedCircleFX(Transform original)
+    {
+        StartCoroutine(PlayFXandDestroy(original));
+    }
+
+    IEnumerator PlayFXandDestroy(Transform original)
+    {
+        GameObject particleSystem = Instantiate(tappedCircleFX, original.position, Quaternion.identity) as GameObject;
+        particleSystem.GetComponent<ParticleSystem>().Play();
+
+        while(particleSystem.GetComponent<ParticleSystem>().isPlaying)
+        {
+            yield return null;
+        }
+
+        Destroy(particleSystem);
     }
 }

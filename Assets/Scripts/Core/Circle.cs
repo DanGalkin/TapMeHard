@@ -54,6 +54,7 @@ public class Circle : MonoBehaviour
     {
         m_isTapped = true;
         m_scoreManager.GetComponent<ScoreManager>().ScoreTappedCircle();
+        m_scoreManager.GetComponent<ScoreManager>().PlayTappedCircleFX(transform);
         Destroy(gameObject);
     }
 
